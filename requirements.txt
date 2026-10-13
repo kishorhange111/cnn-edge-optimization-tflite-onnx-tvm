@@ -1,0 +1,4 @@
+# Evaluate the committed TFLite / ONNX models on a modern Python.
+numpy>=1.21
+onnxruntime>=1.12
+tensorflow>=2.4   # MNIST loader, Keras and TFLite interpreter
