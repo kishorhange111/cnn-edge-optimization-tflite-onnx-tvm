@@ -1,0 +1,8 @@
+# Environment the project's conversions were run in (versions taken from the
+# logs in docs/final_report_2023-06-11.pdf). Needed for the graph-freezing and
+# graph_transforms steps, which do not exist in TensorFlow 2.x.
+# TensorFlow 1.15 requires Python 3.7 or older.
+tensorflow==1.15.0
+onnx==1.12.0
+tf2onnx==1.13.0
+onnxruntime
