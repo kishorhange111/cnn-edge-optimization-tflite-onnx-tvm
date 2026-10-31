@@ -115,28 +115,30 @@ edge-opt --models-dir /data/exp1 convert optimized-pb-to-tflite --output /tmp/mo
 ## Project layout
 
 ```
-.
-├── src/edge_opt/
-│   ├── paths.py        # Models directory + file name for every stage (configurable)
-│   ├── data.py         # MNIST loading and preprocessing shared by all steps
-│   ├── train.py        # CNN definition (119,652 params) and training
-│   ├── convert.py      # h5 → frozen pb → optimized pb → tflite → onnx
-│   ├── runners.py      # One predict() wrapper per format (Keras/pb/TFLite/ONNX)
-│   ├── benchmark.py    # Framework-free accuracy / latency / size helpers
-│   ├── evaluate.py     # Runs the benchmark against model files
-│   └── cli.py          # `edge-opt` command line
+cnn-edge-optimization-tflite-onnx-tvm/
+├── src/edge_opt/               # the pipeline (installable package, `edge-opt` CLI)
+│   ├── paths.py                #   models directory + file name for every stage (configurable)
+│   ├── data.py                 #   MNIST loading and preprocessing shared by all steps
+│   ├── train.py                #   CNN definition (119,652 params) and training
+│   ├── convert.py              #   h5 → frozen pb → optimized pb → tflite → onnx
+│   ├── runners.py              #   one predict() wrapper per format (Keras/pb/TFLite/ONNX)
+│   ├── benchmark.py            #   framework-free accuracy / latency / size helpers
+│   ├── evaluate.py             #   runs the benchmark against model files
+│   └── cli.py                  #   `edge-opt` command line
 ├── scripts/
-│   └── tvm_compile_and_tune.sh   # tvmc compile → tune → compile → run
-├── models/             # Trained and converted model artifacts
+│   └── tvm_compile_and_tune.sh # tvmc compile → tune → compile → run
+├── models/                     # trained and converted model artifacts
 ├── notebooks/
-│   ├── model_conversion.ipynb    # Training + freezing exploration (TF 1.15)
-│   └── tvm_compiler_tuning.ipynb # TVM compile / tune / timing runs
-├── docs/
-│   ├── final_report_2023-06-11.pdf
-│   └── final_presentation_2023-06-11.pptx
-├── tests/              # pytest suite (TF/ONNX tests skip if not installed)
-├── pyproject.toml
-└── requirements*.txt
+│   ├── model_conversion.ipynb      # training + freezing exploration (TF 1.15)
+│   └── tvm_compiler_tuning.ipynb   # TVM compile / tune / timing runs
+├── docs/                       # final report (PDF) and presentation (PPTX)
+├── tests/                      # pytest suite (TF/ONNX tests skip if not installed)
+├── .github/workflows/ci.yml    # lint + tests on every push and pull request
+├── Makefile                    # make install / install-dev / lint / test / bench
+├── pyproject.toml              # package metadata, dependencies, ruff + pytest config
+├── requirements.txt            # pinned runtime stack (TensorFlow 2)
+├── requirements-tf1.txt        # legacy TF 1.15 stack for the original conversion steps
+└── requirements-dev.txt        # lint + test tooling
 ```
 
 <details>
@@ -164,6 +166,8 @@ pytest
 ```
 
 CI (GitHub Actions) runs ruff and pytest on Python 3.10 and 3.12. TensorFlow is not installed in CI, so TF-dependent tests skip themselves. The ONNX Runtime test still runs the committed model end to end.
+
+`make check` runs the same lint and test steps as CI, and `make help` lists the other commands. Optionally, `pip install pre-commit && pre-commit install` runs ruff before every commit.
 
 ## Tech stack
 
