@@ -19,3 +19,6 @@ results*.json
 .DS_Store
 .vscode/
 .idea/
+.coverage
+htmlcov/
+.env
