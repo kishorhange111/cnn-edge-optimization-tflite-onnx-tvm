@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "edge-opt"
+version = "0.1.0"
+description = "Optimize a Keras CNN for edge devices: frozen graph, TFLite, ONNX and TVM, with a shared accuracy/latency/size benchmark."
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = ["tensorflow", "tflite", "onnx", "tvm", "edge-ai", "model-optimization"]
+# Only NumPy is required: frameworks are imported lazily, so install the
+# extras for the formats you actually use.
+dependencies = ["numpy>=1.21"]
+
+[project.optional-dependencies]
+tf = ["tensorflow>=2.4"]
+onnx = ["onnx>=1.12", "onnxruntime>=1.12", "tf2onnx>=1.13"]
+dev = ["pytest>=7", "ruff>=0.5"]
+
+[project.scripts]
+edge-opt = "edge_opt.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+src = ["src", "tests"]
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
