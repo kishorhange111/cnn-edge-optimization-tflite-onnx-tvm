@@ -1,3 +1,7 @@
+# SECURITY NOTE: TensorFlow 1.15 and onnx 1.12 are end-of-life and have known CVEs
+# (see the repo's Dependabot alerts). They are pinned only to reproduce the 2023
+# TF1 graph-freezing experiments. Use this environment offline, in an isolated venv,
+# and never load untrusted models or serve it on a network. Use requirements.txt otherwise.
 # Environment the project's conversions were run in (versions taken from the
 # logs in docs/final_report_2023-06-11.pdf). Needed for the graph-freezing and
 # graph_transforms steps, which do not exist in TensorFlow 2.x.
